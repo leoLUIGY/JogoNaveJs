@@ -1,7 +1,7 @@
 body{
-    width:1280px;
-    height:640px;
-    background-color: rgb(10, 4, 32);
+    width:1280;
+    height:660px;
+    background-color: rgb(0, 0, 0);
     display:flex;
     justify-content:center;
     align-items: center;
@@ -17,4 +17,9 @@ button{
 button:hover{
     background-color:rgb(5, 5, 216);
     color:white;
+}
+
+canvas{
+    display:flex;
+    justify-content: center;
 }
