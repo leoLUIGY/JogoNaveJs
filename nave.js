@@ -15,14 +15,15 @@ start.addEventListener('click', StartGame);
     //===============VARIAVEIS DE INICIALIZAÇÃO===========================
     let balaPontos = 0;
     let distancia = 0;
+    
     let gameActive = true;
     let jogo;
     let tecla;
     let c =  document.getElementById('canvas');
     let ctx = c.getContext("2d");
+    const screenScale = [1000, 660];
 
-
-
+   
     //===============VARIAVEIS IMAGE NAME===========================
     let imgMet = 'Meteoro.png';
     let imgNav = 'frente.png';
@@ -46,7 +47,7 @@ start.addEventListener('click', StartGame);
     let municaoEnemyObj = [];
     let fundoObj = [];
     let enemyNavObj = [];
-
+    let teclaAtual = [];
     //===============VARIAVEIS IMAGENS SRC===========================
     navObj.src = imgNav;
     metObj.src = imgMet;
@@ -60,17 +61,23 @@ start.addEventListener('click', StartGame);
     document.querySelector('body').addEventListener('keydown', function(event){
         notPress = false;
         tecla = event.keyCode;
+        teclaAtual[tecla] = true;
     });
-
+    document.querySelector('body').addEventListener('keyup', function(event){
+        tecla = event.keyCode;
+        teclaAtual[tecla] = false;
+    })
 
 //========================iNICIALIZAÇÃO OBJETOS======================================
 
     //===============OBJETO NAVE===========================
-    function nav(x, y, image, life){
+    function nav(x, y, image, life, scaleX, scaleY){
         this.x = x;
         this.y = y;
         this.image = image;
         this.life = life;
+        this.scaleX =scaleX;
+        this.scaleY = scaleY;
 
     }
 
@@ -92,13 +99,14 @@ start.addEventListener('click', StartGame);
     }
 
     //===============OBJETO COMETAS===========================
-    function cometas(x, y, velY, velX, scale, isColled){
+    function cometas(x, y, velY, velX, scale, isColled, changed){
         this.x = x;
         this.y = y;
         this.velX = velX;
         this.velY = velY;
         this.scale = scale;
         this.isColled = isColled;
+        this.changed = changed;
         
     }
 
@@ -124,44 +132,52 @@ start.addEventListener('click', StartGame);
     //===============UPDATE NAVE LIFE===========================
     nav.prototype.Life = function(){
         ctx.fillStyle = 'brown';
-        ctx.fillRect(230,620,500,20 );
+        ctx.fillRect(230,screenScale[1]-(screenScale[1]/15),screenScale[1]-160,20 );
         ctx.fillStyle = 'green';
-        ctx.fillRect(230,620,this.life,20 );
+        ctx.fillRect(230,screenScale[1]-(screenScale[1]/15),this.life,20 );
     }
 
     //===============UPDATE NAVE PROPERTIES===========================
     nav.prototype.update = function(){
-        ctx.drawImage(this.image, this.x, this.y,90, 90);
+        ctx.drawImage(this.image, this.x, this.y,this.scaleX, this.scaleY);
        
-        if(tecla== 32){
-            let muni = new bala(jogo.x + 40,jogo.y,false);
+        if(teclaAtual[32]){
+            let muni = new bala(jogo.x + this.scaleX/2,jogo.y,false);
             municaoObj.push(muni);
-            tecla = null;
+            //tecla = null;
         };
-        if(tecla == 37){
-            this.x -=10;
-            tecla = null;
+        if(teclaAtual[37]){
+            this.x -=4;
+            //tecla = null;
         };
-        if(tecla== 39){
-            this.x +=10;
-            tecla = null;
+        if(teclaAtual[39]){
+            this.x +=4;
+            //tecla = null;
         };
 
-        if(tecla == 38){
-            this.y -=10;
-            tecla = null;
+        if(teclaAtual[38]){
+            this.y -=4;
+            //tecla = null;
         };
-        if(tecla== 40){
-        this.y +=10
-        tecla = null;
+        if(teclaAtual[40]){
+        this.y +=4;
+        //tecla = null;
         }
+
+        if(this.x < 0) this.x = 1;
+        else if(this.x >screenScale[0]-jogo.scaleX) this.x = screenScale-jogo.scaleX-1;
+
+
+        if(this.y < 0) this.y = 1;
+        else if(this.y >screenScale[1]-jogo.scaleY) this.y = screenScale[1]-jogo.scaleY-1;
+
        
     }
   
     //===============UPDATE FUNDO PROPERTIES===========================
     Fundo.prototype.update = function(){
         this.y +=2;
-        ctx.drawImage(funObj, this.x, this.y, 1000, 660);
+        ctx.drawImage(funObj, this.x, this.y, screenScale[0], screenScale[1]);
     }
 
     //===============UPDATE NAVE ENEMY PROPERTIES===========================
@@ -173,7 +189,14 @@ start.addEventListener('click', StartGame);
         if(municaoEnemyObj.length< 1){
             ativarBalaEnemy(this);
         }
-        if(this.x < 0 || this.x > 950)this.velenemyX *= -1;
+        if(this.x < 0){
+            this.x=1;
+            this.velenemyX *= -1;
+        }
+        else if (this.x > 950){
+            this.x = 949;
+            this.velenemyX *= -1;
+        }
         
         ctx.drawImage(this.image, this.x, this.y, this.scalenemyX, this.scalenemyY);
         
@@ -184,14 +207,10 @@ start.addEventListener('click', StartGame);
         
             this.y += this.velY;
             this.x += this.velX
-            if((this.x >= jogo.x+10 && this.x+this.scale-25<=jogo.x+70)&&(this.y + this.scale-20>=jogo.y  && this.y<=jogo.y + 70)){
+            if((this.x >= jogo.x-this.scale/2 && this.x<=jogo.x+jogo.scaleX-20)&&(this.y + this.scale-20>=jogo.y  && this.y<=jogo.y + 70)){
                 this.isColled = true;
                 jogo.life-=100;
-                if(jogo.life <= 0){
-                    gameActive = false;
-                    cv.style.display="none";
-                    restart.style.display="block";
-                }
+            
             }
             
 
@@ -204,10 +223,12 @@ start.addEventListener('click', StartGame);
         for(let j = 0; j<cometaObj.length; j++){
             if((this.x >= cometaObj[j].x+ 5 && this.x<=cometaObj[j].x+ cometaObj[j].scale)&&(this.y>=cometaObj[j].y && this.y<=cometaObj[j].y + cometaObj[j].scale)){
                 this.touch = true;
-                let com = new cometas(cometaObj[j].x, cometaObj[j].y, Math.floor(Math.random() * 5)+2,Math.floor(Math.random() * 4)-2, cometaObj[j].scale/2, false);
-                let com2 = new cometas(cometaObj[j].x, cometaObj[j].y, Math.floor(Math.random() * 5)+2,Math.floor(Math.random() * 4)-2, cometaObj[j].scale/2, false);
-                cometaObj.push(com);
-                cometaObj.push(com2);
+                if(cometaObj[j].changed){
+                    let com = new cometas(cometaObj[j].x, cometaObj[j].y, Math.floor(Math.random() * 5)+2,Math.floor(Math.random() * 4)-2, cometaObj[j].scale/2, false,false);
+                    let com2 = new cometas(cometaObj[j].x, cometaObj[j].y, Math.floor(Math.random() * 5)+2,Math.floor(Math.random() * 4)-2, cometaObj[j].scale/2, false, false);
+                    cometaObj.push(com);
+                    cometaObj.push(com2);
+                }
                 cometaObj.splice(cometaObj.indexOf(cometaObj[j]), 1);
               
                balaPontos++;
@@ -218,7 +239,11 @@ start.addEventListener('click', StartGame);
     }
 
     balaEnemy.prototype.update = function(){
-      
+        if((this.x >= jogo.x+ 5 && this.x<=jogo.x+ jogo.scaleX)&&(this.y>=jogo.y && this.y<=jogo.y + jogo.scaleY)){
+            jogo.life-=50;
+            municaoEnemyObj.splice(municaoEnemyObj.indexOf(this), 1);
+            return;
+        }
         ctx.drawImage(balaEnemyObj,this.x ,this.y, 10, 10);
         this.y += 5;
     }
@@ -229,18 +254,27 @@ start.addEventListener('click', StartGame);
     //===============ATIVAR COMETAS===========================
     function ativarCometa(){
         if(gameActive){
-            let met = new cometas(Math.floor(Math.random() * 1000, 0),-250, Math.floor(Math.random() * 6)+3,Math.floor(Math.random() * 2)-1,Math.floor(Math.random() * 150)+100, false);
+            let timeCom;
+            if(distancia<25)timeCom = '1500';
+             else if(distancia > 25 && distancia < 50)timeCom='1300';
+             else if(distancia > 50 && distancia<75)timeCom='1200';
+             else if(distancia > 75)timeCom='1100';
+
+            let met = new cometas(Math.floor(Math.random() * screenScale[0], 0),-250, Math.floor(Math.random() * 6)+3,Math.floor(Math.random() * 2)-1,Math.floor(Math.random() * 150)+100, false,true);
             cometaObj.push(met);
-            setTimeout('ativarCometa()', '1500');
+            setTimeout('ativarCometa()', timeCom);
         }
     }
 
     //===============ATIVAR NAVE ENEMY===========================
     function ativarNavEnemy(){
         if(gameActive){
-            let met = new navEnemy(Math.floor(Math.random() * 1000, 0),-250,enemyObj,4, 1,80, -80);
+            let timeCom;
+            if(distancia<100)timeCom = '25000';
+             else if(distancia > 100)timeCom='20000';
+            let met = new navEnemy(Math.floor(Math.random() * screenScale[0], 0),-250,enemyObj,4, 1,80, -80);
             enemyNavObj.push(met);
-            setTimeout('ativarNavEnemy()', '25000');
+            setTimeout('ativarNavEnemy()', timeCom);
         }
     }
 
@@ -259,6 +293,12 @@ start.addEventListener('click', StartGame);
        setTimeout('Distance()', '1000');
     }
     function PontosUI(){
+        if(jogo.life <= 0){
+            gameActive = false;
+            cv.style.display="none";
+            restart.style.display="block";
+        }
+
         ctx.font = "30px Arial white";
         ctx.fillText('Pontos: '+balaPontos+'.', 30, 30);
         ctx.font = "30px Arial white";
@@ -270,19 +310,19 @@ start.addEventListener('click', StartGame);
        
        fundoObj.forEach((fundo)=>{
             fundo.update();
-            if(fundo.y >=660){
-                fundo.y = -660;
+            if(fundo.y >=screenScale[1]){
+                fundo.y = -screenScale[1];
             }
         });
        cometaObj.forEach((cometa)=>{
             cometa.update();
-            if(cometa.y>=660 || cometa.isColled){
+            if(cometa.y>=screenScale[1] || cometa.isColled){
                 cometaObj.splice(cometaObj.indexOf(cometa),1);
             }
         });
          enemyNavObj.forEach((enemy)=>{
             enemy.update();
-            if(enemy.y >=660){
+            if(enemy.y >=screenScale[1] + 100){
                 enemyNavObj.splice(enemyNavObj.indexOf(enemy), 1);
             }
         });
@@ -296,7 +336,7 @@ start.addEventListener('click', StartGame);
         municaoEnemyObj.forEach((municaoEnemy)=>{
             municaoEnemy.update();
             console.log(municaoEnemyObj.length);
-            if(municaoEnemy.y >= 660 ){
+            if(municaoEnemy.y >= screenScale[1] ){
                 municaoEnemyObj.splice(municaoEnemyObj.indexOf(municaoEnemy),1);
             }
         });
@@ -312,7 +352,7 @@ start.addEventListener('click', StartGame);
         AllUpdates();
         jogo.update();
         jogo.Life();
-       
+        console.log(screenScale[0], screenScale[1]);
         PontosUI();
         window.requestAnimationFrame(Game);
         } 
@@ -325,10 +365,10 @@ start.addEventListener('click', StartGame);
         start.style.display="none";
         cv.style.display="block";
         let fd = new Fundo(0, 0);
-        let fdU = new Fundo(0,-660);
+        let fdU = new Fundo(0,-screenScale[1]);
         fundoObj.push(fd);
         fundoObj.push(fdU);
-        jogo = new nav(400, 500, navObj,500);
+        jogo = new nav(400, 500, navObj,500,90,90);
     
         ativarCometa();
         ativarNavEnemy();
