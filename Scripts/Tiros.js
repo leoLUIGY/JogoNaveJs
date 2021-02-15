@@ -83,4 +83,7 @@ export function updateShoots(){
         }
     });
 }
+export function restartAllP(){
+    balaPontos = 0;
+}
 

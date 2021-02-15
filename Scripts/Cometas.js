@@ -50,3 +50,9 @@ export function updateCometas(){
         }
     });
 }
+
+export function restartAllC(){
+    for(let i = 0; i< cometaObj.length; i++){
+        cometaObj.pop();
+    }
+}

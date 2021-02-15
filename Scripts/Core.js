@@ -1,6 +1,9 @@
 import {updateCometas } from './Cometas.js';  
+import {restartAllC} from './Cometas.js';  
 import {updateEnemy } from './navEnemy.js';
+import {restartAllE} from './navEnemy.js';
 import {updateShoots } from './Tiros.js';
+import {restartAllP} from './Tiros.js';
 import {updateFundo } from './fundo.js';
 import {PontosUI } from './Ui.js';
 import {navObj } from './nave.js';  
@@ -11,10 +14,16 @@ import {ativarCometa } from './ActiveObjects.js';
 import {ativarNavEnemy } from './ActiveObjects.js';
 import {Distance } from './Ui.js';
 import {distancia } from './Ui.js';
+import {restartAllD } from './Ui.js';
+import {datesStatus } from './Ui.js';
 
 
 let start = document.querySelector('.iniciar');
-export let restart = document.querySelector('.restart');
+export let restart = document.querySelector('.status');
+export let references = document.querySelector('.references');
+export let credits = document.querySelector('.Credits');
+export let voltar = document.querySelector('.voltar');
+export let voltarMenu = document.querySelector('.voltarMenu');
 export let cv = document.querySelector('canvas');
 export let jogo;
 let iniciar  = false;
@@ -23,9 +32,29 @@ let timeNav;
 
 cv.style.display="none";
 restart.style.display = "none";
+references.style.display = "none";
+
+credits.addEventListener('click', function(){
+    start.style.display = "none";
+    credits.style.display = "none";
+    references.style.display = "block";
+
+});
+
+voltar.addEventListener('click', function(){
+    start.style.display = "block";
+    credits.style.display = "block";
+    references.style.display = "none";
+
+});
+voltarMenu.addEventListener('click', function(){
+    window.location.reload();
+
+});
 
 restart.addEventListener('click', function(){
-    window.location.reload();
+    //window.location.reload();
+    new StartGame();
 });
 
 start.addEventListener('click', StartGame);
@@ -81,6 +110,7 @@ start.addEventListener('click', StartGame);
             gameActive = false;
             cv.style.display="none";
             restart.style.display="block";
+            datesStatus();
         }
         if(gameActive){
         AllUpdates();
@@ -96,13 +126,21 @@ start.addEventListener('click', StartGame);
        // let dv = document.querySelector('.game');
         //dv.style.display="none";
         start.style.display="none";
+        credits.style.display = "none";
+        restart.style.display = "none";
+        
+        gameActive = true
+        restartAllE();
+        restartAllC();
+        restartAllD();
+        restartAllP();
         cv.style.display="block";
         let fd = new Fundo(0, 0);
         let fdU = new Fundo(0,-screenScale[1]);
         fundoObj.push(fd);
         fundoObj.push(fdU);
         jogo = new nav(400, 500, navObj,500,90,90);
-        
+        jogo.life = 500;
         Game();
         ativaEnemy();
         ativaCom();

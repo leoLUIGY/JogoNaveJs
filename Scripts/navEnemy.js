@@ -58,3 +58,9 @@ export function updateEnemy(){
         }
     });
 }
+
+export function restartAllE(){
+    for(let i = 0; i< enemyNavObj.length; i++){
+        enemyNavObj.pop();
+    }
+}
