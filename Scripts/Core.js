@@ -16,46 +16,18 @@ import {Distance } from './Ui.js';
 import {distancia } from './Ui.js';
 import {restartAllD } from './Ui.js';
 import {datesStatus } from './Ui.js';
+import { enabledCanvas, enableRestart } from './ControlButtons.js';
+import {actualAtributeCount} from './ControlButtons.js';
 
 
 let start = document.querySelector('.iniciar');
-export let restart = document.querySelector('.status');
-export let references = document.querySelector('.references');
-export let credits = document.querySelector('.Credits');
-export let voltar = document.querySelector('.voltar');
-export let voltarMenu = document.querySelector('.voltarMenu');
-export let cv = document.querySelector('canvas');
 export let jogo;
 let iniciar  = false;
 let timeCometa;
 let timeNav;
 
-cv.style.display="none";
-restart.style.display = "none";
-references.style.display = "none";
 
-credits.addEventListener('click', function(){
-    start.style.display = "none";
-    credits.style.display = "none";
-    references.style.display = "block";
 
-});
-
-voltar.addEventListener('click', function(){
-    start.style.display = "block";
-    credits.style.display = "block";
-    references.style.display = "none";
-
-});
-voltarMenu.addEventListener('click', function(){
-    window.location.reload();
-
-});
-
-restart.addEventListener('click', function(){
-    //window.location.reload();
-    new StartGame();
-});
 
 start.addEventListener('click', StartGame);
 //=============================VARIAVEIS ==============================================
@@ -108,8 +80,7 @@ start.addEventListener('click', StartGame);
     function Game(){
         if(jogo.life <= 0){
             gameActive = false;
-            cv.style.display="none";
-            restart.style.display="block";
+            enableRestart();
             datesStatus();
         }
         if(gameActive){
@@ -117,6 +88,7 @@ start.addEventListener('click', StartGame);
         jogo.update();
         jogo.Life();
         PontosUI();
+        console.log('vel is '+ (3 + (atributeCount[1]/2)));
         window.requestAnimationFrame(Game);
         } 
     }
@@ -125,22 +97,19 @@ start.addEventListener('click', StartGame);
     function StartGame(){
        // let dv = document.querySelector('.game');
         //dv.style.display="none";
-        start.style.display="none";
-        credits.style.display = "none";
-        restart.style.display = "none";
-        
+        enabledCanvas();
         gameActive = true
         restartAllE();
         restartAllC();
         restartAllD();
         restartAllP();
-        cv.style.display="block";
+        
         let fd = new Fundo(0, 0);
         let fdU = new Fundo(0,-screenScale[1]);
         fundoObj.push(fd);
         fundoObj.push(fdU);
-        jogo = new nav(400, 500, navObj,500,90,90);
-        jogo.life = 500;
+        jogo = new nav(400, 500, navObj,100+((actualAtributeCount[2]/2) * 100),90,90);
+        jogo.life = 100+((actualAtributeCount[2]/2) * 100);
         Game();
         ativaEnemy();
         ativaCom();

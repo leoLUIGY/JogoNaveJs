@@ -3,7 +3,7 @@ import {ctx } from './Core.js';
 import {municaoObj } from './Tiros.js';
 import {jogo } from './Core.js';  
 import {bala} from './Tiros.js';
-
+import {actualAtributeCount} from './ControlButtons.js';
 
 let soundTiro = new Audio('shoot.wav');
 let tecla;
@@ -11,10 +11,12 @@ let tecla;
 soundTiro.load();
 //===============VARIAVEIS IMAGE NAME===========================
 let imgNav = 'Images/frente.png';
-
+let imgNavD = 'Images/Ldireito.png';
+let imgNavE = 'Images/LEsquerdo.png';
 //===============VARIAVEIS IMAGE INSTANCE===========================
 export let navObj = new Image();
-
+let canShoot = true;
+let time = 3000;
 //===============VARIAVEIS IMAGENS SRC===========================
 navObj.src = imgNav;
 
@@ -32,6 +34,7 @@ document.querySelector('body').addEventListener('keydown', function(event){
 });
 document.querySelector('body').addEventListener('keyup', function(event){
     tecla = event.keyCode;
+    navObj.src = imgNav;
     teclaAtual[tecla] = false;
 })
 
@@ -40,6 +43,7 @@ document.querySelector('body').addEventListener('keyup', function(event){
 
 //===============OBJETO NAVE===========================
 export function nav(x, y, image, life, scaleX, scaleY){
+    canShoot = true;
     this.x = x;
     this.y = y;
     this.image = image;
@@ -54,7 +58,7 @@ export function nav(x, y, image, life, scaleX, scaleY){
 //===============UPDATE NAVE LIFE===========================
 nav.prototype.Life = function(){
     ctx.fillStyle = 'brown';
-    ctx.fillRect(230,screenScale[1]-(screenScale[1]/15),screenScale[1]-160,20 );
+    ctx.fillRect(230,screenScale[1]-(screenScale[1]/15),100+((actualAtributeCount[2]/2) * 100),20 );
     ctx.fillStyle = 'green';
     ctx.fillRect(230,screenScale[1]-(screenScale[1]/15),this.life,20 );
 }
@@ -63,31 +67,39 @@ nav.prototype.Life = function(){
 nav.prototype.update = function(){
     ctx.drawImage(this.image, this.x, this.y,this.scaleX, this.scaleY);
     
-    if(teclaAtual[32]){
+    if(teclaAtual[32] && canShoot){
+        canShoot = false;
         let muni = new bala(jogo.x + this.scaleX/2,jogo.y,false);
         municaoObj.push(muni);
         let song = soundTiro.cloneNode();
         song.volume = 1;
         song.play();
-
+        if(actualAtributeCount[0]>0)time = 3000/actualAtributeCount[0];
+        setTimeout(function(){
+            canShoot = true;
+        }, time );
         //local sound https://freesound.org/s/435417/
         //tecla = null;
+        
     };
-    if(teclaAtual[37]){
-        this.x -=4;
+    if(teclaAtual[37] ){
+        
+        this.x -=(3 + (actualAtributeCount[1]/2));
+        navObj.src = imgNavE;
         //tecla = null;
     };
     if(teclaAtual[39]){
-        this.x +=4;
+        this.x +=(3 + (actualAtributeCount[1]/2));
+        navObj.src = imgNavD ;
         //tecla = null;
     };
 
     if(teclaAtual[38]){
-        this.y -=4;
+        this.y -=(3 + (actualAtributeCount[1]/2));
         //tecla = null;
     };
     if(teclaAtual[40]){
-    this.y +=4;
+    this.y +=(3 + (actualAtributeCount[1]/2));
     //tecla = null;
     }
 
@@ -100,6 +112,5 @@ nav.prototype.update = function(){
 
     
 }
-
 
 

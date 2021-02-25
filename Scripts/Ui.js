@@ -25,8 +25,13 @@ export function PontosUI(){
      distancia = 0;
  }
  export function datesStatus(){
-     
-     if(maximaDistancia < distancia) maximaDistancia = distancia;
+     if(JSON.parse(localStorage.getItem("dates") != '')){
+     maximaDistancia = JSON.parse(localStorage.getItem("dates"));
+     }
+     if(maximaDistancia < distancia){
+         localStorage.setItem("dates", JSON.stringify(distancia))
+          maximaDistancia = distancia;
+     }
     dis.innerHTML= distancia;
     maxdis.innerHTML = maximaDistancia;
     point.innerHTML = balaPontos;
