@@ -1,7 +1,5 @@
-import {screenScale } from './Core.js';
-import {ctx } from './Core.js';
-import {municaoEnemyObj } from './Tiros.js'; 
-import {balaEnemy } from './Tiros.js'; 
+import {screenScale, ctx} from './Core.js';
+import {municaoEnemyObj, balaEnemy} from './Tiros.js'; 
 
   
   //===============VARIAVEIS IMAGE NAME===========================

@@ -1,8 +1,5 @@
-import {screenScale } from './Core.js';
-import {ctx } from './Core.js';
-import {municaoObj } from './Tiros.js';
-import {jogo } from './Core.js';  
-import {bala} from './Tiros.js';
+import {screenScale,ctx, jogo } from './Core.js';
+import {municaoObj, bala } from './Tiros.js';
 import {actualAtributeCount} from './ControlButtons.js';
 
 let soundTiro = new Audio('shoot.wav');

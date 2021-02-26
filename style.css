@@ -6,6 +6,9 @@ body{
     justify-content:center;
     align-items: center;
 }
+canvas{
+    height:100vh;
+}
 
 button{
     width:300px;

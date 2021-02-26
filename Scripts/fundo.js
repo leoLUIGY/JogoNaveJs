@@ -1,5 +1,4 @@
-import {screenScale } from './Core.js';
-import {ctx } from './Core.js';
+import {screenScale, ctx } from './Core.js';
 //===============VARIAVEIS IMAGE NAME===========================
 let imgFun = 'Images/fundo.png';
 

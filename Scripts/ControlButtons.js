@@ -1,5 +1,6 @@
 
 
+
 let atributeCount = [-1,-1,-1];
 let atributesMenu = [document.querySelectorAll('.point-shoot'),document.querySelectorAll('.point-speed'),
     document.querySelectorAll('.point-life')];
@@ -10,7 +11,7 @@ let gameMenu=document.querySelector('.game-start');
 let gameInfo=document.querySelector('.more-info');
 let atributes=document.querySelector('.atributes');
 let statusStributes=document.querySelector('.status-atributes');
-let restart = document.querySelector('.status');
+export let restart = document.querySelector('.status');
 let references = document.querySelector('.references');
 let credits = document.querySelector('.Credits');
 let voltar = document.querySelectorAll('.voltar');
@@ -141,13 +142,10 @@ voltarMenu.addEventListener('click', function(){
 
 });
 
-restart.addEventListener('click', function(){
-    //window.location.reload();
-    new StartGame();
-});
 
 
-function updateAtributes(){
+
+export function updateAtributes(){
     if(JSON.parse(localStorage.getItem("atributeSpeed")) != ''){
         actualAtributeCount[1] = JSON.parse(localStorage.getItem("atributeSpeed"))
     }

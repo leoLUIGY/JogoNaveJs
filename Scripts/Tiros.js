@@ -1,8 +1,5 @@
-import {screenScale } from './Core.js'; 
-import {ctx } from './Core.js';
-import {cometaObj } from './Cometas.js';
-import {cometas } from './Cometas.js';
-import {jogo } from './Core.js';  
+import {screenScale, ctx, jogo} from './Core.js'; 
+import {cometaObj, cometas} from './Cometas.js';  
 
 
 export let balaPontos = 0;

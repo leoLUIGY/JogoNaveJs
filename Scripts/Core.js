@@ -1,23 +1,12 @@
-import {updateCometas } from './Cometas.js';  
-import {restartAllC} from './Cometas.js';  
-import {updateEnemy } from './navEnemy.js';
-import {restartAllE} from './navEnemy.js';
-import {updateShoots } from './Tiros.js';
-import {restartAllP} from './Tiros.js';
-import {updateFundo } from './fundo.js';
-import {PontosUI } from './Ui.js';
-import {navObj } from './nave.js';  
-import {nav } from './nave.js';  
-import {Fundo } from './fundo.js';
-import {fundoObj} from './fundo.js';   
-import {ativarCometa } from './ActiveObjects.js';
-import {ativarNavEnemy } from './ActiveObjects.js';
-import {Distance } from './Ui.js';
-import {distancia } from './Ui.js';
-import {restartAllD } from './Ui.js';
-import {datesStatus } from './Ui.js';
-import { enabledCanvas, enableRestart } from './ControlButtons.js';
-import {actualAtributeCount} from './ControlButtons.js';
+import {updateCometas, restartAllC } from './Cometas.js';    
+import {updateEnemy,restartAllE } from './navEnemy.js';
+import {updateShoots, restartAllP } from './Tiros.js';
+import {navObj, nav} from './nave.js';  
+import {Fundo, updateFundo,fundoObj} from './fundo.js';  
+import {ativarCometa, ativarNavEnemy } from './ActiveObjects.js';
+import {Distance, datesStatus, restartAllD, distancia, PontosUI } from './Ui.js';
+import { enabledCanvas, enableRestart, restart, actualAtributeCount, updateAtributes } from './ControlButtons.js';
+
 
 
 let start = document.querySelector('.iniciar');
@@ -26,7 +15,10 @@ let iniciar  = false;
 let timeCometa;
 let timeNav;
 
-
+restart.addEventListener('click', function(){
+    //window.location.reload();
+    new StartGame();
+});
 
 
 start.addEventListener('click', StartGame);
@@ -88,16 +80,16 @@ start.addEventListener('click', StartGame);
         jogo.update();
         jogo.Life();
         PontosUI();
-        console.log('vel is '+ (3 + (atributeCount[1]/2)));
         window.requestAnimationFrame(Game);
         } 
     }
 
 //=========================ATIVAÇÃO DO LOOPING PRINCIPAL==========================================
-    function StartGame(){
+  export function StartGame(){
        // let dv = document.querySelector('.game');
         //dv.style.display="none";
         enabledCanvas();
+        updateAtributes();
         gameActive = true
         restartAllE();
         restartAllC();
