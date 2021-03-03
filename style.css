@@ -72,7 +72,7 @@ canvas{
 }
 .status, .references{
     width:500px;
-    height:300px;
+    height:550px;
     font-size: 20px;
     display:flex;
     justify-content:center;

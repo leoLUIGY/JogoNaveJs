@@ -1,5 +1,5 @@
 import {screenScale, ctx, jogo} from './Core.js'; 
-import {cometaObj, cometas} from './Cometas.js';  
+import {cometaObj, cometas, sound} from './Cometas.js';  
 
 
 export let balaPontos = 0;
@@ -46,6 +46,7 @@ for(let j = 0; j<cometaObj.length; j++){
             cometaObj.push(com);
             cometaObj.push(com2);
         }
+        sound();
         cometaObj.splice(cometaObj.indexOf(cometaObj[j]), 1);
         balaPontos++;
     }

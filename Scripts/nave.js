@@ -14,6 +14,8 @@ let imgNavE = 'Images/LEsquerdo.png';
 export let navObj = new Image();
 let canShoot = true;
 let time = 3000;
+let canvas =  document.getElementById('canvas');
+
 //===============VARIAVEIS IMAGENS SRC===========================
 navObj.src = imgNav;
 
@@ -34,7 +36,28 @@ document.querySelector('body').addEventListener('keyup', function(event){
     navObj.src = imgNav;
     teclaAtual[tecla] = false;
 })
+function mDown(event){
+    console.log("dentro do evento")
+    let reactNav = canvas.getBoundingClientRect();
+    let pos ={
+        x:event.clientX ,
+        y:event.clientY 
+    };
 
+    console.log("mouse in position " + pos.x + " - "+pos.y);
+    if(pos.x < screenScale[0]/2 ){
+        
+        this.x -=(3 + (actualAtributeCount[1]/2));
+        navObj.src = imgNavE;
+        //tecla = null;
+    }
+    else if(pos.x > screenScale[0]/2){
+        this.x +=(3 + (actualAtributeCount[1]/2));
+        navObj.src = imgNavD ;
+        //tecla = null;
+    }
+
+}
  
 //========================iNICIALIZAÇÃO OBJETOS======================================
 
@@ -101,7 +124,7 @@ nav.prototype.update = function(){
     }
 
     if(this.x < 0) this.x = 1;
-    else if(this.x >screenScale[0]-jogo.scaleX) this.x = screenScale-jogo.scaleX-1;
+    else if(this.x >screenScale[0]-jogo.scaleX) this.x = screenScale[0]-jogo.scaleX-1;
 
 
     if(this.y < 0) this.y = 1;

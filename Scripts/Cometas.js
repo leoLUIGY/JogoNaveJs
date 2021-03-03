@@ -3,7 +3,9 @@ import {jogo, screenScale, ctx } from './Core.js';
 
 //===============VARIAVEIS IMAGE NAME===========================
 let imgMet = 'Images/Meteoro.png';
-
+let song = new Audio('explosion.wav');
+song.load();
+//https://freesound.org/s/250712/
 let imgMetExplosion;
 let metExplosion = ['Images/explosao.png','Images/explosao2.png','Images/explosao3.png','Images/explosao2.png','Images/explosao3.png',
     'Images/explosao2.png','Images/explosao.png'];
@@ -62,6 +64,7 @@ explosion.prototype.update = function(){
     metObjExplosion.src = imgMetExplosion;
     ctx.drawImage(metObjExplosion, this.x, this.y, this.scale, this.scale);
     if(this.index==6){
+        
         cometaObj.splice(cometaObj.indexOf(this.cometa),1);
         //console.log('esplodiu com '+ cometaObj.length + ' cometas restantes e ' +explosion.length);
        
@@ -74,20 +77,27 @@ export function updateCometas(){
     cometaObj.forEach((cometa)=>{
         cometa.update();
         if((cometa.y>=screenScale[1]|| cometa.isColled)){
-            if(cometa.y>=screenScale[1])cometaObj.splice(cometaObj.indexOf(cometa),1);
-            else if(!cometa.isDead && cometa.isColled){
-            let exp = new explosion(cometa.x, cometa.y, cometa.scale, cometa,0 );
-            explosions.push(exp);
-            animExp();
-            cometa.isDead = true;
+            if(cometa.y>=screenScale[1]){
+                cometaObj.splice(cometaObj.indexOf(cometa),1);
             }
-           
-            
-            
+            else if(!cometa.isDead && cometa.isColled){
+                let exp = new explosion(cometa.x, cometa.y, cometa.scale, cometa,0 );
+                explosions.push(exp);
+                animExp();
+                sound();
+                cometa.isDead = true;
+            }
         }
+        
+            
     });
 }
 
+export function sound(){
+    let newSong = song.cloneNode();
+        newSong.volume = 1;
+        newSong.play();
+}
 function animExp(){
     explosions.forEach((exps)=>{
         exps.update();

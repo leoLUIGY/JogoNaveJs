@@ -14,6 +14,11 @@ export let jogo;
 let iniciar  = false;
 let timeCometa;
 let timeNav;
+let backSound = new Audio('space.wav');
+backSound.load();
+backSound.loop = true;
+//https://freesound.org/s/323090/
+//https://freesound.org/s/48622
 
 restart.addEventListener('click', function(){
     //window.location.reload();
@@ -74,6 +79,7 @@ start.addEventListener('click', StartGame);
             gameActive = false;
             enableRestart();
             datesStatus();
+            backSound.pause();
         }
         if(gameActive){
         AllUpdates();
@@ -95,6 +101,9 @@ start.addEventListener('click', StartGame);
         restartAllC();
         restartAllD();
         restartAllP();
+        backSound.play();
+        
+
         
         let fd = new Fundo(0, 0);
         let fdU = new Fundo(0,-screenScale[1]);

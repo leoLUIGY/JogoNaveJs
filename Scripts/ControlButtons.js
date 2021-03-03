@@ -1,5 +1,5 @@
 
-
+import{maxPoints, subtractPoints, pointsNow} from "./Ui.js";
 
 let atributeCount = [-1,-1,-1];
 let atributesMenu = [document.querySelectorAll('.point-shoot'),document.querySelectorAll('.point-speed'),
@@ -20,8 +20,10 @@ let cv = document.querySelector('canvas');
 
 let howPlay = document.querySelector('.status-HowPlay');
 let howPlayButton = document.querySelector('.CJogar');
+let maxPoi = document.querySelector('.MaxPoint');
 
-export let actualAtributeCount = [-1, -1, -1];
+export let actualAtributeCount = [0,0, 0];
+let prices = [[1, 2, 3, 4,0], [100, 200, 300, 400, 0], [100, 200, 300, 400, 0]];
 
 cv.style.display="none";
 restart.style.display = "none";
@@ -29,83 +31,25 @@ references.style.display = "none";
 statusStributes.style.display = "none";
 howPlay.style.display="none";
 
+function buttonsName(first, second, third){  
+buttonsAtributes[0].innerHTML = prices[0][first];
+buttonsAtributes[1].innerHTML = prices[1][second];
+buttonsAtributes[2].innerHTML = prices[2][third];
+console.log("prices " + prices[0][first]);
+}
 
 buttonsAtributes[0].addEventListener('click', function(){
-    if(atributeCount[0]<5)
-    atributeCount[0]++;
- 
-    if(JSON.parse(localStorage.getItem("atributeShoot") )!= ''){
-        actualAtributeCount[0] = JSON.parse(localStorage.getItem("atributeShoot"))
-    }
-    if(actualAtributeCount[0] < atributeCount[0]){
-        console.log('i am here '+ atributeCount[0]);
-        localStorage.setItem("atributeShoot", JSON.stringify(atributeCount[0]));
-        actualAtributeCount[0] = atributeCount[0];
-    }
-
-   
-
-    for(let i = 0; i< atributesMenu[0].length; i++){
-        if(i<=actualAtributeCount[0]){
-            atributesMenu[0][i].style.background='#FFFFFF';
-        } else{
-            continue;
-        }
-    }
-    console.log('it has '+ actualAtributeCount[0]);
+    atributeToUpdate(0, "atributeShoot");
 });
+
 buttonsAtributes[1].addEventListener('click', function(){
-   
-    if(atributeCount[1]<5)
-        atributeCount[1]++;
-
-    if(JSON.parse(localStorage.getItem("atributeSpeed")) != ''){
-        actualAtributeCount[1] = JSON.parse(localStorage.getItem("atributeSpeed"))
-    }
-
-    if(actualAtributeCount[1] < atributeCount[1]){
-        localStorage.setItem("atributeSpeed", JSON.stringify(atributeCount[1]));
-        actualAtributeCount[1] = atributeCount[1];
-    }
-
-   
-
-    for(let i = 0; i< atributesMenu[1].length; i++){
-        if(i<=actualAtributeCount[1]){
-            atributesMenu[1][i].style.background='#FFFFFF';
-        } else{
-            continue;
-        }
-    }
-    console.log('it has '+ actualAtributeCount[1]);
+    atributeToUpdate(1, "atributeSpeed");
 });
+
 buttonsAtributes[2].addEventListener('click', function(){
-  
-
-    if(atributeCount[2]<5)
-        atributeCount[2]++;
-
-    if(JSON.parse(localStorage.getItem("atributeLife") )!= ''){
-        actualAtributeCount[2] = JSON.parse(localStorage.getItem("atributeLife"))
-    }
-   
-    if(actualAtributeCount[2] < atributeCount[2]){
-        localStorage.setItem("atributeLife", JSON.stringify(atributeCount[2]));
-        actualAtributeCount[2] = atributeCount[2];
-    }
-
-    for(let i = 0; i< atributesMenu[2].length; i++){
-        if(i<= actualAtributeCount[2]){
-            atributesMenu[2][i].style.background='#FFFFFF';
-        } else{
-            continue;
-        }
-    }
-    console.log('it has '+ actualAtributeCount[2]);
-
-
-
+    atributeToUpdate(2, "atributeLife");
 });
+
 howPlayButton.addEventListener('click', function(){
     gameMenu.style.display = "none";
     gameInfo.style.display = "none";
@@ -114,10 +58,10 @@ howPlayButton.addEventListener('click', function(){
 });
 
 atributes.addEventListener('click', function(){
-    updateAtributes();
     statusStributes.style.display = "block";
     gameMenu.style.display = "none";
     gameInfo.style.display = "none";
+    updateAtributes();
 
 });
 credits.addEventListener('click', function(){
@@ -138,33 +82,79 @@ voltar.forEach((volt)=> {
 
 
 voltarMenu.addEventListener('click', function(){
-    window.location.reload();
+    //window.location.reload();
+    cv.style.display="none";
+    gameMenu.style.display = "flex";
+    gameInfo.style.display = "flex";
+    references.style.display = "none";
+    statusStributes.style.display = "none";
+    howPlay.style.display="none";
+   
 
 });
 
+function atributeToUpdate(index, storage){
+    if(prices[index][actualAtributeCount[index]] <= maxPoints){
+        subtractPoints(maxPoints - prices[index][actualAtributeCount[index]]);
+        if(atributeCount[index]<4)
+        atributeCount[index]++;
+    
+        if(JSON.parse(localStorage.getItem(storage) )!= ''){
+            actualAtributeCount[index] = JSON.parse(localStorage.getItem(storage))
+        }
+            console.log('i am here '+ atributeCount[index]);
+            localStorage.setItem(storage, JSON.stringify(atributeCount[index]));
+            actualAtributeCount[index] = atributeCount[index];
+
+            for(let i = 0; i< atributesMenu[index].length; i++){
+                if(i<=actualAtributeCount[index]){
+                    atributesMenu[index][i].style.background='#FFFFFF';
+                } else{
+                    continue;
+                }
+            }
+        }
+
+        pointsNow();
+        maxPoi.innerHTML = maxPoints;
+        buttonsName(actualAtributeCount[0], actualAtributeCount[1], actualAtributeCount[2]);
+        console.log('it has '+ actualAtributeCount[index]);
+}
 
 
 
 export function updateAtributes(){
     if(JSON.parse(localStorage.getItem("atributeSpeed")) != ''){
         actualAtributeCount[1] = JSON.parse(localStorage.getItem("atributeSpeed"))
+        if(actualAtributeCount[1]=== null){
+            actualAtributeCount[1] = 0;
+        }
     }
    
     if(JSON.parse(localStorage.getItem("atributeShoot") )!= ''){
         actualAtributeCount[0] = JSON.parse(localStorage.getItem("atributeShoot"))
-    }
+        if(actualAtributeCount[0]=== null){
+            actualAtributeCount[0] = 0;
+        }
+    } 
 
     if(JSON.parse(localStorage.getItem("atributeLife") )!= ''){
         actualAtributeCount[2] = JSON.parse(localStorage.getItem("atributeLife"))
+        if(actualAtributeCount[2]=== null){
+            actualAtributeCount[2] = 0;
+        }
     }
-
+    buttonsName(actualAtributeCount[0], actualAtributeCount[1], actualAtributeCount[2]);
     for(let j = 0; j< buttonsAtributes.length;j++){
-        for(let i = 0; i< atributesMenu[j].length; i++){
-            if(i<=actualAtributeCount[j]){
+        for(let i = -1; i< atributesMenu[j].length; i++){
+            if(i<=actualAtributeCount[j]-1 && i > -1){
                 atributesMenu[j][i].style.background='#FFFFFF';
             }
         }
     }
+    pointsNow();
+    maxPoi.innerHTML = maxPoints;
+   
 }
 
 export function enabledCanvas(){

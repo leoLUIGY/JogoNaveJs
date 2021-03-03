@@ -3,7 +3,7 @@
     <head>
         <link rel="stylesheet" href="style.css">
     </head>
-    <body >
+    <body>
         <canvas id="canvas" width="1000px" height="660px" style="border:1px solid black">
                 
         </canvas>
@@ -26,6 +26,7 @@
                 </div>
                 <div>
                 <h2>points:<h3 class="Points"></h3></h2>
+                <h2 class="maxSpace">Max Points: <h3 class="MaxPoints"></h3></h2>
                 </div>
                 <div>
                 <Button class="restart">Restart Game</Button>
@@ -56,6 +57,7 @@
                 </div>
             </div>
             <div class="status-atributes">
+                    <h2 class="maxSpace">Max Points: <h3 class="MaxPoint"></h3></h2>
                     <div>
                         <h2>SHOOT: </h2>
                         <div class="point-shoot"></div>
@@ -95,13 +97,16 @@
             <div class="references">
                 <h2>Programação: Leônidas Luigy</h2>
                 <h2>Arte: Lucas Vinicius Carmo</h2>
-                <h2>Som: https://freesound.org/s/435417/</h2>
+                <h2>SomTiro: https://freesound.org/s/435417/</h2>
+                <h2>Som explosão: https://freesound.org/s/250712/</h2>
+                <h2>Som espaço: https://freesound.org/s/48622</h2>
                 <Button class="voltar">Voltar</Button>
             </div>
             </div>
         
         
         <script src="Scripts/Core.js" type="module"> </script>
+        <script src="Scripts/nave.js" type="module"> </script>
         <!--<script src="Scripts/nave.js" type="module"> </script>
         <script src="Scripts/navEnemy.js" type="module"> </script>
         <script src="Scripts/fundo.js" type="module"> </script>
