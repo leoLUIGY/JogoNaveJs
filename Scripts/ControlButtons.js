@@ -1,5 +1,6 @@
 
 import{maxPoints, subtractPoints, pointsNow} from "./Ui.js";
+import{gameActive} from "./Core.js";
 
 let atributeCount = [-1,-1,-1];
 let atributesMenu = [document.querySelectorAll('.point-shoot'),document.querySelectorAll('.point-speed'),
@@ -11,11 +12,11 @@ let gameMenu=document.querySelector('.game-start');
 let gameInfo=document.querySelector('.more-info');
 let atributes=document.querySelector('.atributes');
 let statusStributes=document.querySelector('.status-atributes');
-export let restart = document.querySelector('.status');
+let restart = document.querySelector('.status');
+export let restartButton = document.querySelector('.restart');
 let references = document.querySelector('.references');
 let credits = document.querySelector('.Credits');
 let voltar = document.querySelectorAll('.voltar');
-let voltarMenu = document.querySelector('.voltarMenu');
 let cv = document.querySelector('canvas');
 
 let howPlay = document.querySelector('.status-HowPlay');
@@ -23,7 +24,7 @@ let howPlayButton = document.querySelector('.CJogar');
 let maxPoi = document.querySelector('.MaxPoint');
 
 export let actualAtributeCount = [0,0, 0];
-let prices = [[1, 2, 3, 4,0], [100, 200, 300, 400, 0], [100, 200, 300, 400, 0]];
+let prices = [[50, 100, 150, 200,0], [50, 100, 150, 200, 0], [50, 100, 150, 200, 0]];
 
 cv.style.display="none";
 restart.style.display = "none";
@@ -78,20 +79,9 @@ voltar.forEach((volt)=> {
     references.style.display = "none";
     statusStributes.style.display = "none";
     howPlay.style.display="none";
+    restart.style.display ="none";
     })});
 
-
-voltarMenu.addEventListener('click', function(){
-    //window.location.reload();
-    cv.style.display="none";
-    gameMenu.style.display = "flex";
-    gameInfo.style.display = "flex";
-    references.style.display = "none";
-    statusStributes.style.display = "none";
-    howPlay.style.display="none";
-   
-
-});
 
 function atributeToUpdate(index, storage){
     if(prices[index][actualAtributeCount[index]] <= maxPoints){

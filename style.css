@@ -62,7 +62,8 @@ button:hover{
     margin-right:10px;
     background-color: rgba(255,0,0,0.2);
 }
-.status-atributes div{
+.status-atributes div,
+ .maxSpace{
     display:flex;
 }
 

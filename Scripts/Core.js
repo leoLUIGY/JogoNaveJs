@@ -5,7 +5,7 @@ import {navObj, nav} from './nave.js';
 import {Fundo, updateFundo,fundoObj} from './fundo.js';  
 import {ativarCometa, ativarNavEnemy } from './ActiveObjects.js';
 import {Distance, datesStatus, restartAllD, distancia, PontosUI } from './Ui.js';
-import { enabledCanvas, enableRestart, restart, actualAtributeCount, updateAtributes } from './ControlButtons.js';
+import { enabledCanvas, enableRestart, restartButton, actualAtributeCount, updateAtributes } from './ControlButtons.js';
 
 
 
@@ -20,13 +20,17 @@ backSound.loop = true;
 //https://freesound.org/s/323090/
 //https://freesound.org/s/48622
 
-restart.addEventListener('click', function(){
+restartButton.addEventListener('click', function(){
     //window.location.reload();
+    
     new StartGame();
 });
 
 
-start.addEventListener('click', StartGame);
+start.addEventListener('click', function(){ 
+    new StartGame();
+
+});
 //=============================VARIAVEIS ==============================================
     //===============VARIAVEIS DE INICIALIZAÇÃO===========================
     
@@ -34,8 +38,8 @@ start.addEventListener('click', StartGame);
     
     let c =  document.getElementById('canvas');
     export let ctx = c.getContext("2d");
-    export const screenScale = [1000, 660];
-    
+    export let screenScale = [ctx.canvas.width, ctx.canvas.height];
+    console.log('Estou aqui no Starter do jogo '+ screenScale[0] + " " + screenScale[1]);
 
 
   
