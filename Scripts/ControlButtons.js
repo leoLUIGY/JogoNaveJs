@@ -10,7 +10,7 @@ let buttonsAtributes = [document.querySelector('.add-shoot'), document.querySele
 
 let gameMenu=document.querySelector('.game-start');
 let gameInfo=document.querySelector('.more-info');
-let atributes=document.querySelector('.atributes');
+let atributes=document.querySelectorAll('.atributes');
 let statusStributes=document.querySelector('.status-atributes');
 let restart = document.querySelector('.status');
 export let restartButton = document.querySelector('.restart');
@@ -58,18 +58,21 @@ howPlayButton.addEventListener('click', function(){
 
 });
 
-atributes.addEventListener('click', function(){
-    statusStributes.style.display = "block";
-    gameMenu.style.display = "none";
-    gameInfo.style.display = "none";
-    updateAtributes();
-
-});
+atributes.forEach((atribute)=>{
+    atribute.addEventListener('click', function(){
+        statusStributes.style.display = "block";
+        gameMenu.style.display = "none";
+        gameInfo.style.display = "none";
+        restart.style.display ="none";
+        updateAtributes();
+    
+    });
+})
 credits.addEventListener('click', function(){
     gameMenu.style.display = "none";
     gameInfo.style.display = "none";
     references.style.display = "block";
-
+    
 });
 
 voltar.forEach((volt)=> {

@@ -10,7 +10,7 @@ import {navEnemy } from './navEnemy.js';
 
 //===============ATIVAR COMETAS===========================
 export function ativarCometa(){
-    let met = new cometas(Math.floor(Math.random() * screenScale[0], 0),-250, Math.floor(Math.random() * 6)+3,Math.floor(Math.random() * 2)-1,Math.floor(Math.random() * 150)+100, false,true, false);
+    let met = new cometas(Math.floor(Math.random() * screenScale[0], 0),-250, Math.floor(Math.random() * 6)+3,Math.floor(Math.random() * 2)-1,Math.floor(Math.random() * screenScale[1]/4.3)+screenScale[1]/6.4, false,true, false);
     cometaObj.push(met);
 }
 

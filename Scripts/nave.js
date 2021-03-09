@@ -13,8 +13,9 @@ let imgNavE = 'Images/LEsquerdo.png';
 //===============VARIAVEIS IMAGE INSTANCE===========================
 export let navObj = new Image();
 let canShoot = true;
+let posMouse = 0;
 let time = 3000;
-let canvas =  document.getElementById('canvas');
+//let canvas =  document.getElementById('canvas');
 
 //===============VARIAVEIS IMAGENS SRC===========================
 navObj.src = imgNav;
@@ -24,40 +25,35 @@ navObj.src = imgNav;
 //===============VARIAVEIS ARRAYS OBJETOS==========================
 let teclaAtual = [];
 
+window.addEventListener("mousedown", function(e){
+   // if(screenScale[0] < 750){
+        console.log("estou aqui");
+    if(e.x > screenScale[1]/2){
+        posMouse = 1;
+    } else if(e.x < screenScale[1]/2){
+        posMouse = 2;
+    }
+//}
+});
+
+window.addEventListener("mouseup", function(e){
+     
+    //posMouse = 0;
+})
 
 //==========================EVENTOS DE CLICK=========================================
 document.querySelector('body').addEventListener('keydown', function(event){
     //notPress = false;
     tecla = event.keyCode;
     teclaAtual[tecla] = true;
+    posMouse = 0;
 });
 document.querySelector('body').addEventListener('keyup', function(event){
     tecla = event.keyCode;
     navObj.src = imgNav;
     teclaAtual[tecla] = false;
 })
-function mDown(event){
-    console.log("dentro do evento")
-    let reactNav = canvas.getBoundingClientRect();
-    let pos ={
-        x:event.clientX ,
-        y:event.clientY 
-    };
 
-    console.log("mouse in position " + pos.x + " - "+pos.y);
-    if(pos.x < screenScale[0]/2 ){
-        
-        this.x -=(3 + (actualAtributeCount[1]/2));
-        navObj.src = imgNavE;
-        //tecla = null;
-    }
-    else if(pos.x > screenScale[0]/2){
-        this.x +=(3 + (actualAtributeCount[1]/2));
-        navObj.src = imgNavD ;
-        //tecla = null;
-    }
-
-}
  
 //========================iNICIALIZAÇÃO OBJETOS======================================
 
@@ -87,7 +83,7 @@ nav.prototype.Life = function(){
 nav.prototype.update = function(){
     ctx.drawImage(this.image, this.x, this.y,this.scaleX, this.scaleY);
     
-    if(teclaAtual[32] && canShoot){
+    if((teclaAtual[32] && canShoot) || (posMouse > 0 && canShoot)){
         canShoot = false;
         let muni = new bala(jogo.x + this.scaleX/2,jogo.y,false);
         municaoObj.push(muni);
@@ -102,13 +98,12 @@ nav.prototype.update = function(){
         //tecla = null;
         
     };
-    if(teclaAtual[37] ){
-        
+    if(teclaAtual[37] || posMouse == 2){
         this.x -=(3 + (actualAtributeCount[1]/2));
         navObj.src = imgNavE;
         //tecla = null;
     };
-    if(teclaAtual[39]){
+    if(teclaAtual[39] || posMouse == 1){
         this.x +=(3 + (actualAtributeCount[1]/2));
         navObj.src = imgNavD ;
         //tecla = null;

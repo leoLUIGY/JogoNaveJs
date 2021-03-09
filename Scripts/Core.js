@@ -38,9 +38,7 @@ start.addEventListener('click', function(){
     
     let c =  document.getElementById('canvas');
     export let ctx = c.getContext("2d");
-    export let screenScale = [ctx.canvas.width, ctx.canvas.height];
-    console.log('Estou aqui no Starter do jogo '+ screenScale[0] + " " + screenScale[1]);
-
+    export let screenScale = [canvas.width, canvas.height];
 
   
 
@@ -98,7 +96,13 @@ start.addEventListener('click', function(){
   export function StartGame(){
        // let dv = document.querySelector('.game');
         //dv.style.display="none";
+     
         enabledCanvas();
+        //c.clientWidth, c.clientHeight]
+        screenScale = [1000, 550];
+        console.log('Estou aqui no Starter do jogo '+ screenScale[0] + " " + screenScale[1]);
+        
+    
         updateAtributes();
         gameActive = true
         restartAllE();
@@ -106,14 +110,20 @@ start.addEventListener('click', function(){
         restartAllD();
         restartAllP();
         backSound.play();
-        
 
-        
+      
+     
         let fd = new Fundo(0, 0);
         let fdU = new Fundo(0,-screenScale[1]);
         fundoObj.push(fd);
         fundoObj.push(fdU);
-        jogo = new nav(400, 500, navObj,100+((actualAtributeCount[2]/2) * 100),90,90);
+        let navS;
+        if(screenScale[0] < 750){
+            navS = (screenScale[1]/7.6)/1.5;
+        } else{
+            navS = screenScale[1]/7.6;
+        }
+        jogo = new nav(400, 500, navObj,100+((actualAtributeCount[2]/2) * 100),screenScale[1]/7.6,navS);
         jogo.life = 100+((actualAtributeCount[2]/2) * 100);
         Game();
         ativaEnemy();
