@@ -30,8 +30,8 @@ let teclaAtual = [];
 
 window.addEventListener("mousedown", function(e){
    // if(screenScale[0] < 750){
-    posisX = e.clientX / (window.innerWidth / 10) * (screenScale[0]/10);
-    posisY = e.clientY / (window.innerHeight / 10) * (screenScale[1]/10);
+    posisX = e.x / (window.innerWidth / 10) * (screenScale[0]/10);
+    posisY = e.y / (window.innerHeight / 10) * (screenScale[1]/10);
         console.log("estou aqui" + posisY + " e player esta em " + jogo.y);
     if(posisX> jogo.x+ (jogo.scaleX/2)){
         posMouse = 1;

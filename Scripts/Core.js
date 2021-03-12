@@ -126,7 +126,7 @@ start.addEventListener('click', function(){
         jogo = new nav(400, 500, navObj,100+((actualAtributeCount[2]/2) * 100),screenScale[1]/7.6,navS);
         jogo.life = 100+((actualAtributeCount[2]/2) * 100);
         Game();
-       // ativaEnemy();
-        //ativaCom();
-        //activeDis();
+        ativaEnemy();
+        ativaCom();
+        activeDis();
     }

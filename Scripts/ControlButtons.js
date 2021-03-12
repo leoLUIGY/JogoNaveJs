@@ -73,7 +73,7 @@ credits.addEventListener('click', function(){
 
 voltar.forEach((volt)=> {
     volt.addEventListener('click', function(){
-    gameMenu.style.display = "block";
+    gameMenu.style.display = "flex";
     references.style.display = "none";
     statusStributes.style.display = "none";
     howPlay.style.display="none";
