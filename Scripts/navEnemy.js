@@ -1,5 +1,5 @@
 import {screenScale, ctx} from './Core.js';
-import {municaoEnemyObj, balaEnemy} from './Tiros.js'; 
+import {municaoEnemyObj, balaEnemy, municaoObj, balaPointNav} from './Tiros.js'; 
 
   
   //===============VARIAVEIS IMAGE NAME===========================
@@ -15,7 +15,7 @@ import {municaoEnemyObj, balaEnemy} from './Tiros.js';
    enemyObj.src = enemyNav;
   
   //===============OBJETO NAVE INIMIGA===========================
-  export function navEnemy(x, y, image, velenemyX, velenemyY, scalenemyX, scalenemyY){
+  export function navEnemy(x, y, image, velenemyX, velenemyY, scalenemyX, scalenemyY, life){
     this.x = x;
     this.y = y;
     this.image = image;
@@ -23,6 +23,7 @@ import {municaoEnemyObj, balaEnemy} from './Tiros.js';
     this.velenemyY = velenemyY;
     this.scalenemyX = scalenemyX;
     this.scalenemyY = scalenemyY;
+    this.life = life;
 }
 
   //===============UPDATE NAVE ENEMY PROPERTIES===========================
@@ -45,13 +46,25 @@ import {municaoEnemyObj, balaEnemy} from './Tiros.js';
         this.velenemyX *= -1;
     }
     
+        
+for(let k = 0; k<municaoObj.length; k++){
+    if((this.x+5 <= municaoObj[k].x && this.x + this.scalenemyX>=municaoObj[k].x)&&
+    (this.y<=municaoObj[k].y && this.y + this.scalenemyY>=municaoObj[k].y)){
+        this.life--;
+        municaoObj.splice(municaoObj.indexOf(municaoObj[k]), 1);
+       
+    }
+}
     ctx.drawImage(this.image, this.x, this.y, this.scalenemyX, this.scalenemyY);
   
 }
 export function updateEnemy(){
     enemyNavObj.forEach((enemy)=>{
         enemy.update();
-        if(enemy.y >=screenScale[1] + 100){
+        if(enemy.y >=screenScale[1] + 100 || enemy.life <= 0){
+            if(enemy.life<=0){
+                balaPointNav();
+            }
             enemyNavObj.splice(enemyNavObj.indexOf(enemy), 1);
         }
     });

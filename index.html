@@ -4,6 +4,8 @@
         <link rel="stylesheet" href="style.css">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet"> 
     </head>
     <body>
         <canvas id="canvas" width="1000px" height="600px" style="border:1px solid black">
@@ -11,6 +13,7 @@
         </canvas>
             
             <div class="menu">
+            <div class="game--menu">
                 <div class="game-start">
                 <button class="iniciar">Start Game</button>
                 <button class="atributes">Atributos</button>
@@ -20,13 +23,13 @@
                     <button class="Credits">Credits</button>
                     <button class="CJogar">Como Jogar</button>
                 </div>
-            
+            </div>
             <div class="status">
-                <div>
+                <div class="distanceDiv">
                 <h2>Distance: <h3 class="Distance"></h3></h2>
                 <h2 class="maxSpace">Max Distance: <h3 class="MaxDistance"></h3></h2>
                 </div>
-                <div>
+                <div class="pointDiv">
                 <h2>points:<h3 class="Points"></h3></h2>
                 <h2 class="maxSpace">Max Points: <h3 class="MaxPoints"></h3></h2>
                 </div>

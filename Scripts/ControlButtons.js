@@ -8,8 +8,7 @@ let atributesMenu = [document.querySelectorAll('.point-shoot'),document.querySel
 let buttonsAtributes = [document.querySelector('.add-shoot'), document.querySelector('.add-speed'),
     document.querySelector('.add-life')];
 
-let gameMenu=document.querySelector('.game-start');
-let gameInfo=document.querySelector('.more-info');
+let gameMenu=document.querySelector('.game--menu');
 let atributes=document.querySelectorAll('.atributes');
 let statusStributes=document.querySelector('.status-atributes');
 let restart = document.querySelector('.status');
@@ -53,7 +52,6 @@ buttonsAtributes[2].addEventListener('click', function(){
 
 howPlayButton.addEventListener('click', function(){
     gameMenu.style.display = "none";
-    gameInfo.style.display = "none";
     howPlay.style.display = "flex";
 
 });
@@ -62,7 +60,6 @@ atributes.forEach((atribute)=>{
     atribute.addEventListener('click', function(){
         statusStributes.style.display = "block";
         gameMenu.style.display = "none";
-        gameInfo.style.display = "none";
         restart.style.display ="none";
         updateAtributes();
     
@@ -70,15 +67,13 @@ atributes.forEach((atribute)=>{
 })
 credits.addEventListener('click', function(){
     gameMenu.style.display = "none";
-    gameInfo.style.display = "none";
     references.style.display = "block";
     
 });
 
 voltar.forEach((volt)=> {
     volt.addEventListener('click', function(){
-    gameMenu.style.display = "flex";
-    gameInfo.style.display = "flex";
+    gameMenu.style.display = "block";
     references.style.display = "none";
     statusStributes.style.display = "none";
     howPlay.style.display="none";
@@ -152,7 +147,6 @@ export function updateAtributes(){
 
 export function enabledCanvas(){
     gameMenu.style.display="none";
-    gameInfo.style.display = "none";
     restart.style.display = "none";
     cv.style.display="block";
 }

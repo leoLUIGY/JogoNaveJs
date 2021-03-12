@@ -96,19 +96,19 @@ start.addEventListener('click', function(){
   export function StartGame(){
        // let dv = document.querySelector('.game');
         //dv.style.display="none";
-     
+        restartAllE();
+        restartAllC();
+        restartAllD();
+        restartAllP();
         enabledCanvas();
         //c.clientWidth, c.clientHeight]
-        screenScale = [1000, 550];
+        //screenScale = [1000, 550];
         console.log('Estou aqui no Starter do jogo '+ screenScale[0] + " " + screenScale[1]);
         
     
         updateAtributes();
         gameActive = true
-        restartAllE();
-        restartAllC();
-        restartAllD();
-        restartAllP();
+      
         backSound.play();
 
       
@@ -126,7 +126,7 @@ start.addEventListener('click', function(){
         jogo = new nav(400, 500, navObj,100+((actualAtributeCount[2]/2) * 100),screenScale[1]/7.6,navS);
         jogo.life = 100+((actualAtributeCount[2]/2) * 100);
         Game();
-        ativaEnemy();
-        ativaCom();
-        activeDis();
+       // ativaEnemy();
+        //ativaCom();
+        //activeDis();
     }

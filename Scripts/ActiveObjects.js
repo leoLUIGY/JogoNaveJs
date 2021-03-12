@@ -16,6 +16,6 @@ export function ativarCometa(){
 
 //===============ATIVAR NAVE ENEMY===========================
 export function ativarNavEnemy(){
-    let met = new navEnemy(Math.floor(Math.random() * screenScale[0], 0),-250,enemyObj,4, 1,80, -80);
+    let met = new navEnemy(Math.floor(Math.random() * screenScale[0], 0),-250,enemyObj,4, 1,80, -80, 1);
     enemyNavObj.push(met);
 }

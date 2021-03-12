@@ -51,10 +51,14 @@ for(let j = 0; j<cometaObj.length; j++){
         balaPontos++;
     }
 }
+
+
 ctx.drawImage(balaObj,this.x ,this.y, 10, 10);
 this.y -= 5;
 }
-
+export function balaPointNav(){
+    balaPontos+=3;
+}
 balaEnemy.prototype.update = function(){
     
     if((this.x >= jogo.x+ 5 && this.x<=jogo.x+ jogo.scaleX)&&(this.y>=jogo.y && this.y<=jogo.y + jogo.scaleY)){

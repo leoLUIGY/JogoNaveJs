@@ -14,7 +14,10 @@ let imgNavE = 'Images/LEsquerdo.png';
 export let navObj = new Image();
 let canShoot = true;
 let posMouse = 0;
+let posMouseY = 0;
 let time = 3000;
+let posisX;
+let posisY;
 //let canvas =  document.getElementById('canvas');
 
 //===============VARIAVEIS IMAGENS SRC===========================
@@ -27,11 +30,19 @@ let teclaAtual = [];
 
 window.addEventListener("mousedown", function(e){
    // if(screenScale[0] < 750){
-        console.log("estou aqui");
-    if(e.x > screenScale[1]/2){
+    posisX = e.clientX / (window.innerWidth / 10) * (screenScale[0]/10);
+    posisY = e.clientY / (window.innerHeight / 10) * (screenScale[1]/10);
+        console.log("estou aqui" + posisY + " e player esta em " + jogo.y);
+    if(posisX> jogo.x+ (jogo.scaleX/2)){
         posMouse = 1;
-    } else if(e.x < screenScale[1]/2){
+    } else if(posisX < jogo.x+ (jogo.scaleX/2)){
         posMouse = 2;
+    }
+
+    if(posisY > jogo.y+ (jogo.scaleY/2)){
+        posMouseY = 1;
+    } else if(posisY < jogo.y+ (jogo.scaleY/2)){
+        posMouseY = 2;
     }
 //}
 });
@@ -47,6 +58,7 @@ document.querySelector('body').addEventListener('keydown', function(event){
     tecla = event.keyCode;
     teclaAtual[tecla] = true;
     posMouse = 0;
+    posMouseY = 0;
 });
 document.querySelector('body').addEventListener('keyup', function(event){
     tecla = event.keyCode;
@@ -74,7 +86,7 @@ export function nav(x, y, image, life, scaleX, scaleY){
 //===============UPDATE NAVE LIFE===========================
 nav.prototype.Life = function(){
     ctx.fillStyle = 'brown';
-    ctx.fillRect(230,screenScale[1]-(screenScale[1]/15),100+((actualAtributeCount[2]/2) * 100),20 );
+    ctx.fillRect(230,screenScale[1]-(screenScale[1]/15),100+(4 * 100),20 );
     ctx.fillStyle = 'green';
     ctx.fillRect(230,screenScale[1]-(screenScale[1]/15),this.life,20 );
 }
@@ -109,15 +121,18 @@ nav.prototype.update = function(){
         //tecla = null;
     };
 
-    if(teclaAtual[38]){
-        this.y -=(3 + (actualAtributeCount[1]/2));
+    if(teclaAtual[38] || posMouseY == 2){
+        this.y -=(1 + (actualAtributeCount[1]/2));
         //tecla = null;
     };
-    if(teclaAtual[40]){
-    this.y +=(3 + (actualAtributeCount[1]/2));
+    if(teclaAtual[40] || posMouseY == 1){
+    this.y +=(1 + (actualAtributeCount[1]/2));
     //tecla = null;
     }
 
+    if(posMouseY != 0  || posMouse != 0){
+        stopMoveTouch(this.x, this.y);
+    }
     if(this.x < 0) this.x = 1;
     else if(this.x >screenScale[0]-jogo.scaleX) this.x = screenScale[0]-jogo.scaleX-1;
 
@@ -129,3 +144,26 @@ nav.prototype.update = function(){
 }
 
 
+function stopMoveTouch(x, y){
+    if(posMouse ==1){
+        if(posisX < x){
+            posMouse = 0;
+            navObj.src = imgNav;
+        }
+    } else if(posMouse == 2){
+        if(posisX>x){
+            posMouse = 0;
+            navObj.src = imgNav;
+        }
+    }
+
+    if(posMouseY ==1){
+        if(posisY < y){
+            posMouseY = 0;
+        }
+    } else if(posMouseY == 2){
+        if(posisY>y){
+            posMouseY = 0;
+        }
+    }
+}
