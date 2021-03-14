@@ -118,10 +118,10 @@ start.addEventListener('click', function(){
         fundoObj.push(fd);
         fundoObj.push(fdU);
         let navS;
-        if(screenScale[0] < 750){
-            navS = (screenScale[1]/7.6)/1.5;
+        if(window.innerWidth < 750){
+            navS = (window.innerHeight/7.6)/1.5;
         } else{
-            navS = screenScale[1]/7.6;
+            navS = window.innerHeight/7.6;
         }
         jogo = new nav(400, 500, navObj,100+((actualAtributeCount[2]/2) * 100),screenScale[1]/7.6,navS);
         jogo.life = 100+((actualAtributeCount[2]/2) * 100);
